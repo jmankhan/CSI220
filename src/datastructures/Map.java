@@ -47,7 +47,7 @@ public class Map<T> {
 
 		if(table[index] == null) {
 			return null;
-		} else if(table[index].key == key) {
+		} else if(table[index].key.equals(key)) {
 			return table[index].value;
 		} else {
 			return null;
@@ -61,7 +61,12 @@ public class Map<T> {
 	 */
 	public void put(T key, T value) {
 		int index = hash(key);
-		table[index] = new Entry(key, value);
+		
+		if(table[index] != null) {
+			table[index].key = key;
+			table[index].value = value;
+		} else
+			table[index] = new Entry(key, value);
 	}
 	
 	/**

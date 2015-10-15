@@ -10,7 +10,7 @@ public class MapTest {
 	public void testMap() {
 		Map<Integer> map = new Map<Integer>();
 		assertNotNull(map);
-		assertEquals(map.table.length, 128);
+		assertEquals(map.table.length, 64);
 		assertNull(map.get(new Integer(5)));
 	}
 
@@ -48,10 +48,9 @@ public class MapTest {
 		assertNotEquals((int) map.get(18), 5);
 		
 		for(int i=0; i<500; i++) {
-			map.put(i, 0);
+			map.put(i, -1);
 		}
 		
-		System.out.println(map.get(1));
+		assertNull(map.get(0));
 	}
-
 }
