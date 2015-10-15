@@ -136,6 +136,13 @@ public class LinkedList<T> {
 		
 	}
 
+	/**
+	 * Returns false if there are any items in the list
+	 * @return
+	 */
+	public boolean isEmpty() {
+		return header.next == null ? true : false;
+	}
 	class Node {
 		T data;
 		Node next;

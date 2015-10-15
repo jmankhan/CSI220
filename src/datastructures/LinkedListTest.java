@@ -97,4 +97,13 @@ public class LinkedListTest {
 		assertNull(list.removeLast());
 		
 	}
+	
+	@Test
+	public void testIsEmpty() {
+		LinkedList<Integer> list = new LinkedList<Integer>();
+		assertTrue(list.isEmpty());
+		
+		list.add(10);
+		assertFalse(list.isEmpty());
+	}
 }
