@@ -53,4 +53,8 @@ public class MapTest {
 		
 		assertNull(map.get(0));
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 86e4c49ebca419df296ec91a6d01aeff97ed2c0d
