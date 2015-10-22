@@ -1,5 +1,6 @@
 package datastructures;
 
+
 /**
  * A simple implementation of a Hashmap. Use a hash function to store Entries into an array.
  * This provides a unique index for each entry, allowing for O(1) access and modification

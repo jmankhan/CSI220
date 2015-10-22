@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -8,9 +7,10 @@ import datastructures.Map;
 import datastructures.Stack;
 
 /**
- * This program will take in a standard infix expression with only variables (no numbers) and convert
- * it to a postfix expression using stacks and maps
- * TODO exponents
+ * This program will take in a standard infix expression with only variables (no
+ * numbers) and convert it to a postfix expression using stacks and maps TODO
+ * exponents
+ * 
  * @author Jalal Khan
  *
  */
@@ -18,29 +18,30 @@ public class InfixPostfix {
 
 	private Stack<String> operatorStack;
 	private Map<String, Integer> stackPriority, inputPriority;
-	
+
 	/**
 	 * Sets up the data structures used to store each operator and operand
-	 * @throws FileNotFoundException 
+	 * 
+	 * @throws FileNotFoundException
 	 */
 	public InfixPostfix(File file) throws FileNotFoundException {
 		setupPriorities();
-		
-		Scanner in = new Scanner(file);	
-		
-		//print out one line from the input file
-		while(in.hasNextLine())
+
+		Scanner in = new Scanner(file);
+
+		// print out one line from the input file
+		while (in.hasNextLine())
 			System.out.println(convert(in.nextLine()));
-		
+
 		in.close();
 	}
-	
+
 	public void setupPriorities() {
 		operatorStack = new Stack<String>();
 		stackPriority = new Map<String, Integer>();
 		inputPriority = new Map<String, Integer>();
-		
-		//setup priorities
+
+		// setup priorities
 		stackPriority.put("^", 4);
 		stackPriority.put("*", 3);
 		stackPriority.put("/", 3);
@@ -52,7 +53,7 @@ public class InfixPostfix {
 		stackPriority.put("#", 0);
 		stackPriority.put("(", 1);
 		stackPriority.put(")", 0);
-		
+
 		inputPriority.put("^", 5);
 		inputPriority.put("*", 3);
 		inputPriority.put("/", 3);
@@ -63,101 +64,75 @@ public class InfixPostfix {
 		inputPriority.put("<=", 1);
 		inputPriority.put("#", 0);
 		inputPriority.put("(", 0);
-		inputPriority.put(")", 0);		
+		inputPriority.put(")", 0);
 	}
-	
+
 	public String convert(String expression) {
-		
-		//create alphabet for reference
+
+		// create alphabet for reference
 		String alphabet = "abcdefghijklmnopqrstuvwxyz";
-		
-		//initialize tokenizer to parse infix expression
+
+		// initialize tokenizer to parse infix expression
 		StringTokenizer tokenizer = new StringTokenizer(expression);
-		
-		//initialize output StringBuffer for efficient appending
+
+		// initialize output StringBuffer for efficient appending
 		StringBuffer postfix = new StringBuffer();
 
-		//initialize the stack with # as the first element
+		// initialize the stack with # as the first element
 		operatorStack.push("#");
-		
-		//begin reading the expression
+
+		// begin reading the expression
 		String token = tokenizer.nextToken();
 
-		//read each token from the expression until the end is reached
-		while(!token.equals("#")) {
-			
-			//token is an operand, add it to the output
-			if(alphabet.indexOf(token) != -1) {
+		// read each token from the expression until the end is reached
+		while (!token.equals("#")) {
+
+			// token is an operand, add it to the output
+			if (alphabet.indexOf(token) != -1) {
 				postfix.append(token);
 			}
-			//token is a parentheses, evaluate sub expression
-			else if(token.equals("(")){
+			// token is a parentheses, evaluate sub expression
+			else if (token.equals("(")) {
 				operatorStack.push(token);
-			} else if(token.equals(")")) {
-				//add the subexpression to the output
-				while(!operatorStack.top().equals("(")) {
+			} else if (token.equals(")")) {
+				// add the subexpression to the output
+				while (!operatorStack.top().equals("(")) {
 					postfix.append(operatorStack.pop());
 				}
-				//remove '(' from the stack so it does not appear
-				//in the output
+				// remove '(' from the stack so it does not appear
+				// in the output
 				operatorStack.pop();
-			} else { //token must be an operator
-				//check each operator in the stack until one
-				//with sufficient priority is reached
+			} else { // token must be an operator
+				// check each operator in the stack until one
+				// with sufficient priority is reached
 				String operator = operatorStack.top();
-				while(stackPriority.get(operator) >= inputPriority.get(token)) {
+				while (stackPriority.get(operator) >= inputPriority.get(token)) {
 					operator = operatorStack.pop();
 					postfix.append(operator);
 					operator = operatorStack.top();
 				}
-				
+
 				operatorStack.push(token);
 			}
-			
+
 			token = tokenizer.nextToken();
 		}
-		
-		while(!operatorStack.isEmpty()) {
+
+		while (!operatorStack.isEmpty()) {
 			String operator = operatorStack.pop();
 			postfix.append(operator);
 		}
-		
+
 		return postfix.toString();
 	}
-	
-	public static void main(String args[]) throws FileNotFoundException {
 
-		//read the input file specified via command line
-		File file = new File(args[0]);
-		new InfixPostfix(file);
+	public static void main(String args[]) {
+		// read the input file specified via command line
+		try {
+			File file = new File(args[0]);
+			new InfixPostfix(file);
+		} catch (FileNotFoundException e) {
+			System.out.println("Input file not found");
+		}
 	}
 }
-=======
-import datastructures.Map;
-import datastructures.Stack;
-
-/**
- * This application will convert infix notation to postfix
- * It will prompt for an equation or expression until '#' marks the end
- * and output the converted form
- * @author Jalal Khan
- * 10/15/15
- *
- */
-public class InfixPostfix {
-
-	private Map<String, Integer> stackMap, incomingMap;
-	private Stack<Character> stack;
-	
-	/**
-	 * Default constructor. Initializes both maps and the stack
-	 */
-	public InfixPostfix() {
-		
-		stack		= new Stack<Character>();
-		
-		stackMap 	= new Map<String, Integer>();
-		incomingMap = new Map<String, Integer>();
-	}
-}
->>>>>>> 86e4c49ebca419df296ec91a6d01aeff97ed2c0d
