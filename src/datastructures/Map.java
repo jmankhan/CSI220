@@ -8,7 +8,7 @@ package datastructures;
  * 10/15/15
  * 
  */
-public class Map<T> {
+public class Map<K, V> {
 
 	/**
 	 * The size of the storage array, 128 is the default, 
@@ -19,7 +19,7 @@ public class Map<T> {
 	/**
 	 * The array in which each entry is stored, allowing for fast lookup and modification
 	 */
-	Entry<T>[] table;
+	Entry<K, V>[] table;
 	
 	/**
 	 * Default constructor. Creates an array of size 64
@@ -42,12 +42,12 @@ public class Map<T> {
 	 * @param T key 
 	 * @return T value, null if not found
 	 */
-	public T get(T key) {
+	public V get(K key) {
 		int index = hash(key);
 
 		if(table[index] == null) {
 			return null;
-		} else if(table[index].key == key) {
+		} else if(table[index].key.equals(key)) {
 			return table[index].value;
 		} else {
 			return null;
@@ -59,9 +59,14 @@ public class Map<T> {
 	 * @param T key identifier 
 	 * @param T value object to store
 	 */
-	public void put(T key, T value) {
+	public void put(K key, V value) {
 		int index = hash(key);
-		table[index] = new Entry(key, value);
+		
+		if(table[index] != null) {
+			table[index].key = key;
+			table[index].value = value;
+		} else
+			table[index] = new Entry(key, value);
 	}
 	
 	/**
@@ -69,15 +74,16 @@ public class Map<T> {
 	 * @param key the unique key would like to lookup
 	 * @return int index of array the key is in
 	 */
-	private int hash(T key) {
+	private int hash(K key) {
 		return key.hashCode() % table.length;
 	}
 	
-	class Entry<T> {
-		T key, value;
-		Entry<T> next;
+	class Entry<K, V> {
+		K key;
+		V value;
+		Entry<K, V> next;
 		
-		public Entry(T key, T value) {
+		public Entry(K key, V value) {
 			this.key 	= key;
 			this.value 	= value;
 		}

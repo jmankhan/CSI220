@@ -8,15 +8,15 @@ public class MapTest {
 
 	@Test
 	public void testMap() {
-		Map<Integer> map = new Map<Integer>();
+		Map<Integer, Integer> map = new Map<Integer, Integer>();
 		assertNotNull(map);
-		assertEquals(map.table.length, 128);
+		assertEquals(map.table.length, 64);
 		assertNull(map.get(new Integer(5)));
 	}
 
 	@Test
 	public void testMapInt() {
-		Map<Integer> map = new Map<Integer>(50);
+		Map<Integer, Integer> map = new Map<Integer, Integer>(50);
 		assertNotNull(map);
 		assertEquals(map.table.length, 50);
 		assertNull(map.get(new Integer(51)));
@@ -24,7 +24,7 @@ public class MapTest {
 
 	@Test
 	public void testGet() {
-		Map<Integer> map = new Map<Integer>();
+		Map<Integer, Integer> map = new Map<Integer, Integer>();
 		map.put(5, 5);
 		map.put(0, 1);
 
@@ -37,7 +37,7 @@ public class MapTest {
 
 	@Test
 	public void testPut() {
-		Map<Integer> map = new Map<Integer>();
+		Map<Integer, Integer> map = new Map<Integer, Integer>();
 		map.put(18, 5);
 		map.put(18, 1);
 
@@ -48,10 +48,9 @@ public class MapTest {
 		assertNotEquals((int) map.get(18), 5);
 		
 		for(int i=0; i<500; i++) {
-			map.put(i, 0);
+			map.put(i, -1);
 		}
 		
-		System.out.println(map.get(1));
+		assertNull(map.get(0));
 	}
-
 }
