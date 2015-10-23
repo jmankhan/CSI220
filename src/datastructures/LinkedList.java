@@ -10,13 +10,17 @@ public class LinkedList<T> {
 	/**
 	 * Header sentinel
 	 */
-	private Node header;
+	private Node header, tail;
 	
 	/**
 	 * Default constructor. Instantiates the header sentinel
 	 */
 	public LinkedList() {
 		header = new Node();
+		tail = new Node();
+
+		header.next = tail;
+		tail.prev = header;
 	}
 
 	/**
@@ -24,15 +28,19 @@ public class LinkedList<T> {
 	 * @param T data
 	 */
 	public Node add(T data) {
-		Node temp = header;
 		
-		//walk down the list until temp gets to the end
-		while(temp.next != null) {
-			temp = temp.next;
-		}
+		//create node to insert
+		Node temp = new Node();
+		temp.data = data;
 		
-		temp.next = new Node(data);
-		return temp.next;
+		//add it after the last item, but before tail
+		//make sure to assign each pointer in the correct order
+		tail.prev.next = temp;
+		temp.prev = tail.prev;
+		tail.prev = temp;
+		temp.next = tail;
+		
+		return tail.prev;
 	}
 	
 	/**
@@ -43,20 +51,11 @@ public class LinkedList<T> {
 	}
 	
 	/**
-	 * Gets the last item's data and return it
+	 * Gets the last item if it exists (if the list is not empty),
+	 * else returns null
 	 */
 	public T getLast() {
-		Node walker = header.next;
-		
-		//if the list is empty, return null
-		if(walker == null)
-			return null;
-		
-		while(walker.next != null) {
-			walker = walker.next;
-		}
-		
-		return walker.data;
+		return tail.prev == null ? null : tail.prev.data;
 	}
 
 	/**
@@ -72,7 +71,9 @@ public class LinkedList<T> {
 			count++;
 		}
 
-		//if the list ends before the index is reached, return null
+		//if the list ends before the index is reached
+		//an index greater than the length of the list was requested
+		//so return null
 		if(index > count)
 			return null;
 		
@@ -89,7 +90,7 @@ public class LinkedList<T> {
 		Node temp = this.header;
 		int count = 0;
 		
-		while(temp.next != null) {
+		while(temp.next != tail) {
 			temp = temp.next;
 			count++;
 		}
@@ -108,6 +109,7 @@ public class LinkedList<T> {
 		else {
 			Node temp = first.next;
 			this.header.next = temp;
+			temp.prev = header;
 			return first.data;
 		}
 	}
@@ -117,23 +119,15 @@ public class LinkedList<T> {
 	 * @return
 	 */
 	public T removeLast() {
-		Node walker = header;
-		
-		if(walker.next == null)
+		if(tail.prev == null) {
 			return null;
-		
-		//keep going until the second last node
-		while(walker.next.next != null) {
-			walker = walker.next;
 		}
-		
-		//set second last node next pointer to null
-		//effectively deconstructing the last node
-		Node last = walker.next;
-		walker.next = null; 
+
+		Node last = tail.prev;
+		last.prev.next = tail;
+		tail.prev = last.prev;
 		
 		return last.data;
-		
 	}
 
 	/**
@@ -141,11 +135,12 @@ public class LinkedList<T> {
 	 * @return
 	 */
 	public boolean isEmpty() {
-		return header.next == null ? true : false;
+		return header.next == tail ? true : false;
 	}
+	
 	class Node {
 		T data;
-		Node next;
+		Node next, prev;
 		
 		public Node() {
 			this(null);

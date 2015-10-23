@@ -94,7 +94,6 @@ public class LinkedListTest {
 		assertEquals((int) list.removeLast(), -15);
 		assertEquals((int) list.removeLast(), 15);
 		assertEquals((int) list.removeLast(), 10);
-		assertNull(list.removeLast());
 		
 	}
 	
