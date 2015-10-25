@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -14,7 +15,7 @@ import datastructures.Stack;
  * @author Jalal Khan
  *
  */
-public class InfixPostfix {
+public class InfixPostfix<T> {
 
 	private Stack<String> operatorStack;
 	private Map<String, Integer> stackPriority, inputPriority;
