@@ -44,6 +44,40 @@ public class LinkedList<T> {
 	}
 	
 	/**
+	 * Inserts a data value at the specified index
+	 * @param data
+	 * @param index
+	 * @return
+	 */
+	public Node insert(T data, int index) {
+		if(isEmpty())
+			return null;
+		
+		//walk down the list until index is reached
+		Node walker = header.next;
+		int count = 1;
+		while(count < index && walker.next != null) {
+			count++;
+			walker = walker.next;
+		}
+		
+		//if count is still less than index, then
+		//index is outside the size of the list
+		if(count < index)
+			return null;
+		
+		Node insert = new Node();
+		insert.data = data;
+		
+		insert.prev = walker.prev;
+		insert.next = walker.next;
+		insert.prev.next = insert;
+		insert.next.prev = insert;
+		
+		return insert;
+	}
+	
+	/**
 	 * Returns the first item's data if it exists, else return null
 	 */
 	public T getFirst() {
