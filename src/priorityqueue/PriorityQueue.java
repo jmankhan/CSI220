@@ -10,6 +10,9 @@ public class PriorityQueue<T extends Comparable<T>> implements PQInterface {
 		queue = new LinkedList<Comparable<T>>();
 	}
 
+	/**
+	 * Adds an item to the queue according to its priority
+	 */
 	@Override
 	public void enqueue(Comparable item) {
 		for(int i=0; i<queue.length(); i++) {
@@ -20,32 +23,63 @@ public class PriorityQueue<T extends Comparable<T>> implements PQInterface {
 			//the item in front of everything
 			if(item.compareTo(queue.get(i)) > 0) {
 				queue.insert(item, i);
-				break;
+				return;
 			}
 		}
+		
+		//if the item is the lowest priority in the queue,
+		//or the queue is empty
+		//add it to the back
+		queue.add(item);
 	}
 
+	/**
+	 * Removes the first item from the queue and returns it
+	 * Uses the LinkedList method removeFirst() 
+	 */
 	@Override
 	public Comparable dequeue() {
-		// TODO Auto-generated method stub
-		return null;
+		Comparable item = queue.removeFirst();
+		return item;
 	}
 
+	/**
+	 * Return the first item in the queue
+	 */
 	@Override
 	public Comparable front() {
-		// TODO Auto-generated method stub
-		return null;
+		return queue.getFirst();
 	}
 
+	/**
+	 * Use the linkedlist implementation to check if the queue is empty
+	 */
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+		return queue.isEmpty();
+	}
+
+	/**
+	 * Since this is a linked list implementation, the queue cannot be full
+	 */
+	@Override
+	public boolean isFull() {
 		return false;
+	}
+	
+	public int length() {
+		return queue.length();
 	}
 
 	@Override
-	public boolean isFull() {
-		// TODO Auto-generated method stub
-		return false;
+	public String toString() {
+		String output = "";
+		for(int i=0; i<queue.length(); i++) {
+			output += queue.get(i) + "\n";
+		}
+		
+		return output;
 	}
+	
+	
 }

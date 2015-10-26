@@ -25,12 +25,17 @@ public class Student implements Comparable<Student> {
 	 */
 	@Override
 	public int compareTo(Student that) {
-		if(this.year < that.year)
-			return 1;
-		else if(this.year > that.year)
-			return -1;
-		else {
-			return this.lname.compareTo(that.lname);
+		if(Integer.compare(this.year, that.year) == 0) {
+			return -this.lname.compareTo(that.lname);
+		} else {
+			return -Integer.compare(this.year, that.year);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return lname + " " + fname + " " + year;
+	}
+	
+	
 }

@@ -105,4 +105,25 @@ public class LinkedListTest {
 		list.add(10);
 		assertFalse(list.isEmpty());
 	}
+	
+	@Test
+	public void testInsert() {
+		LinkedList<Integer> list = new LinkedList<Integer>();
+		
+		list.insert(0, 0);
+		assertNotNull(list);
+		assertTrue(list.get(0).equals(0));
+		
+		list.insert(1, 1);
+		assertNotNull(list.get(1));
+		assertTrue(list.get(1).equals(1));
+		assertTrue(list.get(0).equals(0));
+		
+		list.insert(2, 0);
+		assertTrue(list.get(0).equals(2));
+		assertTrue(list.get(1).equals(0));
+		assertTrue(list.get(2).equals(1));
+		
+		assertNull(list.insert(0, 10));
+	}
 }

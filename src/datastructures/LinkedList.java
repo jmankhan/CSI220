@@ -30,49 +30,52 @@ public class LinkedList<T> {
 	public Node add(T data) {
 		
 		//create node to insert
-		Node temp = new Node();
-		temp.data = data;
+		Node insert = new Node();
+		insert.data = data;
 		
 		//add it after the last item, but before tail
 		//make sure to assign each pointer in the correct order
-		tail.prev.next = temp;
-		temp.prev = tail.prev;
-		tail.prev = temp;
-		temp.next = tail;
+		tail.prev.next = insert;
+		insert.prev = tail.prev;
+		tail.prev = insert;
+		insert.next = tail;
 		
 		return tail.prev;
 	}
 	
 	/**
 	 * Inserts a data value at the specified index
+	 * If there is a node already there, it will push it down 
+	 * and take its place
 	 * @param data
 	 * @param index
 	 * @return
 	 */
 	public Node insert(T data, int index) {
-		if(isEmpty())
+		if(isEmpty() && index != 0)
 			return null;
 		
 		//walk down the list until index is reached
 		Node walker = header.next;
-		int count = 1;
-		while(count < index && walker.next != null) {
-			count++;
+		int currentIndex = 0;
+		while(walker.next != null && index > currentIndex) {
+			currentIndex++;
 			walker = walker.next;
 		}
 		
-		//if count is still less than index, then
+		//if currentIndex is still less than index, then
 		//index is outside the size of the list
-		if(count < index)
+		if(currentIndex < index)
 			return null;
 		
+		//insert the data of interest
 		Node insert = new Node();
 		insert.data = data;
 		
 		insert.prev = walker.prev;
-		insert.next = walker.next;
-		insert.prev.next = insert;
+		insert.next = walker;
 		insert.next.prev = insert;
+		insert.prev.next = insert;
 		
 		return insert;
 	}
@@ -134,16 +137,16 @@ public class LinkedList<T> {
 	
 	/**
 	 * Removes the first item in the list and returns it for testing
-	 * @return
+	 * @return item removed
 	 */
 	public T removeFirst() {
 		Node first = header.next;
 		if(first == null)
 			return null;
 		else {
-			Node temp = first.next;
-			this.header.next = temp;
-			temp.prev = header;
+			Node newFirst = first.next;
+			this.header.next = newFirst;
+			newFirst.prev = header;
 			return first.data;
 		}
 	}
