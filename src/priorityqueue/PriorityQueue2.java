@@ -55,7 +55,7 @@ public class PriorityQueue2<T extends Comparable<T>> implements PQInterface {
 	 */
 	@Override
 	public Comparable front() {
-		return header.next != null ? header.next.data : null;
+		return header.next != tail ? header.next.data : null;
 	}
 
 	/**
