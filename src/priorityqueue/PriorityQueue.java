@@ -1,85 +1,95 @@
 package priorityqueue;
 
-import datastructures.LinkedList;
-
 public class PriorityQueue<T extends Comparable<T>> implements PQInterface {
 	
-	LinkedList<Comparable<T>> queue;
+	private Node header, tail;
 	
 	public PriorityQueue() {
-		queue = new LinkedList<Comparable<T>>();
+		this.header = new Node();
+		this.tail = new Node();
+		
+		header.next = tail;
+		tail.prev = header;
 	}
-
+	
 	/**
-	 * Adds an item to the queue according to its priority
+	 * Walk down the queue until an element with less priority or the end
+	 * of the queue is reached. Insert a new node there and push everything
+	 * else down
 	 */
-	@Override
 	public void enqueue(Comparable item) {
-		for(int i=0; i<queue.length(); i++) {
-			
-			//if item has higher priority than the currently
-			//enqueued item, insert item in front of it
-			//break out of the loop so we don't keep inserting
-			//the item in front of everything
-			if(item.compareTo(queue.get(i)) > 0) {
-				queue.insert(item, i);
-				return;
-			}
+		//walk down the queue until the appropriate node is reached
+		Node current = this.header.next;
+		while(current.next != null && item.compareTo(current.data) <= 0) {
+			current = current.next;
 		}
 		
-		//if the item is the lowest priority in the queue,
-		//or the queue is empty
-		//add it to the back
-		queue.add(item);
+		//create a new node and insert it into the list
+		//pushing the current node down
+		Node insert = new Node();
+		insert.data = (T) item;
+		
+		insert.next = current;
+		insert.prev = current.prev;
+		current.prev = insert;
+		insert.prev.next = insert;
 	}
 
 	/**
-	 * Removes the first item from the queue and returns it
-	 * Uses the LinkedList method removeFirst() 
+	 * Remove the first item from the queue and return it
 	 */
-	@Override
-	public Comparable dequeue() {
-		Comparable item = queue.removeFirst();
-		return item;
+	public T dequeue() {
+		
+		Node first = header.next;
+		
+		header.next = first.next;
+		first.next.prev = header;
+		
+		return first.data;
 	}
 
 	/**
-	 * Return the first item in the queue
+	 * Return the first node's data if that node exists
+	 * Otherwise, return null
 	 */
-	@Override
-	public Comparable front() {
-		return queue.getFirst();
+	public T front() {
+		return header.next != tail ? header.next.data : null;
 	}
 
 	/**
-	 * Use the linkedlist implementation to check if the queue is empty
+	 * If header points to tail, the list is empty
 	 */
-	@Override
 	public boolean isEmpty() {
-		return queue.isEmpty();
+		return header.next == tail;
 	}
 
 	/**
-	 * Since this is a linked list implementation, the queue cannot be full
+	 * A linked list implementation cannot be full
 	 */
-	@Override
 	public boolean isFull() {
 		return false;
 	}
-	
-	public int length() {
-		return queue.length();
-	}
 
-	@Override
+	
 	public String toString() {
 		String output = "";
-		for(int i=0; i<queue.length(); i++) {
-			output += queue.get(i) + "\n";
+		Node walker = header.next;
+		
+		while(walker.next != null) {
+			output += walker.data + "\n";
+			walker = walker.next;
 		}
 		
 		return output;
 	}
+
+
+	class Node {
+		T data;
+		Node next, prev;
+	}
 	
-	
+	public static void main(String args[]) {
+		PriorityQueue<Student> q = new PriorityQueue<Student>();
+	}
 }

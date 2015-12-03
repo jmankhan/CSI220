@@ -1,8 +1,7 @@
 package priorityqueue;
-
 public class Student implements Comparable<Student> {
-	private String lname = null; // Student’s last name
-	private String fname = null; // Student’s first name
+	private String lname = null; // Studentï¿½s last name
+	private String fname = null; // Studentï¿½s first name
 	private Integer year = null; // Graduation year
 
 
@@ -23,7 +22,6 @@ public class Student implements Comparable<Student> {
 	 * If last name and years are equal, 0 will be returned
 	 * 
 	 */
-	@Override
 	public int compareTo(Student that) {
 		if(Integer.compare(this.year, that.year) == 0) {
 			return -this.lname.compareTo(that.lname);
@@ -32,7 +30,6 @@ public class Student implements Comparable<Student> {
 		}
 	}
 
-	@Override
 	public String toString() {
 		return lname + " " + fname + " " + year;
 	}

@@ -130,7 +130,7 @@ public class InfixPostfix<T> {
 	public static void main(String args[]) {
 		// read the input file specified via command line
 		try {
-			File file = new File(args[0]);
+			File file = new File("infix.txt");
 			new InfixPostfix(file);
 		} catch (FileNotFoundException e) {
 			System.out.println("Input file not found");
